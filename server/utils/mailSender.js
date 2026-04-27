@@ -15,7 +15,7 @@ async function mailSender(email, subject, body){
         })
         
         const mailOptions = {
-            from: 'chatx.com - chatX',
+            from: `chatX <${process.env.MAIL_USER}>`,
             to: email,
             subject: subject,
             html: body
@@ -29,6 +29,7 @@ async function mailSender(email, subject, body){
     }
     catch(err){
         console.log(err);
+        throw err;
     }
 
 }

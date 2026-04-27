@@ -4,13 +4,8 @@ import User from '../models/user-model.js';
 import mailSender from '../utils/mailSender.js';
 
 async function sendOtpMail(email, otp){
-    try{
-        const mailResponse = await mailSender(email, "chatX OTP", `Your OTP is ${otp}<br>OTP is valid for 5 minutes`);
-        // console.log("Mail sent: ", mailResponse);
-    }
-    catch(e){
-        // console.log("Failed: ", e);
-    }
+    const mailResponse = await mailSender(email, "chatX OTP", `Your OTP is ${otp}<br>OTP is valid for 5 minutes`);
+    return mailResponse;
 }
 
 export async function sendOTP(req, res){

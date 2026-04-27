@@ -124,6 +124,8 @@ function HomePage({ isMobileScreen, isDarkMode, setIsDarkMode, setIsLoading }) {
                                 isRead: message.status === 'read',
                                 isConnectionMsg: message.isConnectionMsg,
                                 isReconnectionMsg: message.isReconnectionMsg,
+                                mediaUrl: message.mediaUrl,
+                                mediaType: message.mediaType,
                             }
                         }
                     }
@@ -483,7 +485,9 @@ function HomePage({ isMobileScreen, isDarkMode, setIsDarkMode, setIsLoading }) {
                                 status: message.status,
                                 isRead: message.status === 'read' ? true : false,
                                 isConnectionMsg: message.isConnectionMsg,
-                                isReconnectionMsg: message.isReconnectionMsg
+                                isReconnectionMsg: message.isReconnectionMsg,
+                                mediaUrl: message.mediaUrl,
+                                mediaType: message.mediaType
                             }
                         }
                     };

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: chatx
+    env: node
+    buildCommand: npm install --prefix server && npm install --prefix client && npm run build --prefix client
+    startCommand: npm start --prefix server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: DB_URI
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: MAIL_SERVICE
+        sync: false
+      - key: MAIL_USER
+        sync: false
+      - key: MAIL_PASS
+        sync: false

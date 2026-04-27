@@ -37,6 +37,8 @@ function chatSocket(io, socket) {
 
             const message = await Message.create({
                 message: data.messageObj.message,
+                mediaUrl: data.messageObj.mediaUrl || null,
+                mediaType: data.messageObj.mediaType || null,
 
                 sendingDatetime: new Date(),
 

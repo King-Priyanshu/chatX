@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { socket } from "../../../sio";
 import DeliveredIcon from "../components/common/DeliveredIcon";
 
-function MessageBubble({ messageText, messageDatetime, isMyMessage, isLastMessage, status }) {
+function MessageBubble({ messageText, messageDatetime, isMyMessage, isLastMessage, status, mediaUrl, mediaType }) {
 
     let hours;
     let minutes;
@@ -28,9 +28,26 @@ function MessageBubble({ messageText, messageDatetime, isMyMessage, isLastMessag
 
             <div className={`${(isMyMessage) ? ('ml-auto bg-light-myMessage dark:bg-dark-myMessage') : ('bg-light-yourMessage text-black dark:text-white dark:bg-dark-yourMessage')} ${(isLastMessage) ? ('rounded-tr-xl') : ('rounded-r-xl')} p-2 inline-flex flex-col rounded-l-xl border max-w-[70%] break-words`}>
 
-                <div className="whitespace-pre-wrap text-sm">
-                    {messageText}
-                </div>
+                {mediaUrl && (
+                    <div className="mb-2">
+                        {mediaType === 'image' && (
+                            <img src={mediaUrl} alt="message-media" className="max-w-full rounded-lg h-auto max-h-64 object-cover" />
+                        )}
+                        {mediaType === 'video' && (
+                            <video src={mediaUrl} controls className="max-w-full rounded-lg h-auto max-h-64" />
+                        )}
+                        {mediaType !== 'image' && mediaType !== 'video' && (
+                            <a href={mediaUrl} target="_blank" rel="noopener noreferrer" className="underline text-blue-300">
+                                View Attachment
+                            </a>
+                        )}
+                    </div>
+                )}
+                {messageText && (
+                    <div className="whitespace-pre-wrap text-sm">
+                        {messageText}
+                    </div>
+                )}
 
                 <div className="text-xs ml-auto flex items-center">
                     <div>

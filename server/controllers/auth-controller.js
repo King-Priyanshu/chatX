@@ -53,8 +53,15 @@ export async function signup(req, res){
     try{
         let {name, email, username, password} = req.body;
 
-        name = name.trim();
-        username = username.toLowerCase().trim();
+        name = name ? name.trim() : '';
+        username = username ? username.toLowerCase().trim() : '';
+
+        if(!name || !email || !username || !password){
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required (name, email, username, password)"
+            });
+        }
 
         if(await isUsernameExist(username) || await isEmailExist(email)){
             return res.status(409).json({
@@ -70,12 +77,18 @@ export async function signup(req, res){
         // await user.save();
 
         return res.status(201).json({
-            success: false,
+            success: true,
             message: "User registered successfully!"
         })
     }
     catch(e){
         console.log(e);
+        if(e.code === 11000){
+            return res.status(409).json({
+                success: false,
+                message: "User already exists, please login"
+            });
+        }
         return res.status(500).json({
             success: false,
             message: "Internal server error!"

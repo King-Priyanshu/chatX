@@ -73,30 +73,31 @@ function FormStepOne({formData, onInputChange, onContinueClick, setIsLoading, on
         }
 
         setIsLoading(true);
-  
-        const response = await fetch(config.serverURL+"/otp/verifyotp", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({email: formData.email, otp: otp.join('')})
-        })
-  
-        const data = await response.json();
-        if(!response.ok){
-          setIsAlert({
-            isSuccess: false,
-            text: data.message
-          })
-          setIsLoading(false);
-          return;
-        }
-  
-        onContinueClick();
-        setIsLoading(false);
-      }
-      else{
 
+        try {
+          const response = await fetch(config.serverURL+"/otp/verifyotp", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: formData.email, otp: otp.join('')})
+          })
+
+          const data = await response.json();
+          if(!response.ok){
+            setIsAlert({
+              isSuccess: false,
+              text: data.message
+            })
+            return;
+          }
+
+          onContinueClick();
+        } catch(e) {
+          setIsAlert({ isSuccess: false, text: 'Something went wrong. Please try again.' });
+        } finally {
+          setIsLoading(false);
+        }
       }
 
     }
@@ -125,33 +126,31 @@ function FormStepOne({formData, onInputChange, onContinueClick, setIsLoading, on
 
     async function handleSendOtp(){
       setIsLoading(true);
-      
-      if(isEmailValid){
-        let response = await fetch(config.serverURL+'/otp/sendotp', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({email: formData.email})
-        })
-        const data = await response.json();
 
-        if(!response.ok){
-          setIsAlert({
-            isSuccess: false,
-            text: data.message
+      try {
+        if(isEmailValid){
+          const response = await fetch(config.serverURL+'/otp/sendotp', {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({email: formData.email})
           })
-          setIsLoading(false);
-          return;
+          const data = await response.json();
+
+          if(!response.ok){
+            setIsAlert({ isSuccess: false, text: data.message });
+            return;
+          }
+
+          setIsTimerVisible(true);
+          setIsOtpSent(true);
         }
-
-        setIsTimerVisible(true);
-        setIsOtpSent(true);
+      } catch(e) {
+        setIsAlert({ isSuccess: false, text: 'Something went wrong. Please try again.' });
+      } finally {
+        setIsLoading(false);
       }
-      else{
-
-      }
-      setIsLoading(false);
     }
 
     return (

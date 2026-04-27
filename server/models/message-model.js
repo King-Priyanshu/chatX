@@ -11,7 +11,16 @@ const MessageSchema = new mongoose.Schema({
     },
     message: {
         type: String,
-        required: true
+        required: false
+    },
+    mediaUrl: {
+        type: String,
+        default: null
+    },
+    mediaType: {
+        type: String,
+        enum: ['image', 'video', 'document', null],
+        default: null
     },
     sendingDatetime: {
         type: Date

@@ -85,6 +85,8 @@ function ChatPaneBody({ activeChatData, activeContactData, setChatData, MessageB
                                 isRead: message.status==='read'?true:false,
                                 isConnectionMsg: message.isConnectionMsg,
                                 isReconnectionMsg: message.isReconnectionMsg,
+                                mediaUrl: message.mediaUrl,
+                                mediaType: message.mediaType
                             }
                         }
                     };
@@ -178,7 +180,7 @@ function ChatPaneBody({ activeChatData, activeContactData, setChatData, MessageB
                         {(!message.isConnectionMsg && !message.isReconnectionMsg) ?
                             <>
                                 <DateBubble date={date} isFirstMsg={index === 0 && !messages[0].isConnectionMsg} />
-                                <MessageBubble messageText={message.message} messageDatetime={{ sendingDatetime: message.sendingDatetime, sentDatetime: message.sentDatetime, deliveredDatetime: message.deliveredDatetime, readDatetime: message.readDatetime }} isMyMessage={message.isMyMessage} isLastMessage={message.id === (Object.keys(activeChatDataRef.current)[Object.keys(activeChatDataRef.current).length - 1])} messageSent={messageSent} status={message.status} />
+                                <MessageBubble messageText={message.message} messageDatetime={{ sendingDatetime: message.sendingDatetime, sentDatetime: message.sentDatetime, deliveredDatetime: message.deliveredDatetime, readDatetime: message.readDatetime }} isMyMessage={message.isMyMessage} isLastMessage={message.id === (Object.keys(activeChatDataRef.current)[Object.keys(activeChatDataRef.current).length - 1])} messageSent={messageSent} status={message.status} mediaUrl={message.mediaUrl} mediaType={message.mediaType} />
                             </>
                             :
                             <>

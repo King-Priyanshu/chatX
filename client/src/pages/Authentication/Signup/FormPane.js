@@ -44,7 +44,11 @@ function FormPane({isMobileScreen, isDarkMode, setIsDarkMode, setIsLoading}){
 
     async function handleSignUpClick(){
       
-      
+      if(!formData.name || !formData.email || !formData.username || !formData.password){
+        setIsAlert({ isSuccess: false, text: 'All fields are required' });
+        return;
+      }
+
       try{
         setIsLoading(true);
         const response = await fetch(config.serverURL+"/auth/signup", {
@@ -52,7 +56,12 @@ function FormPane({isMobileScreen, isDarkMode, setIsDarkMode, setIsLoading}){
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            username: formData.username,
+            password: formData.password
+          }),
         });
         const data = await response.json();
 
