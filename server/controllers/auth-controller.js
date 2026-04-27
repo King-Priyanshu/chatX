@@ -100,6 +100,13 @@ export async function login(req, res){
     try{
         let {username, password} = req.body;
 
+        if (!username || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Username and password are required"
+            });
+        }
+
         username = username.toLowerCase().trim();
 
         const user = await User.findOne({username});
@@ -116,6 +123,14 @@ export async function login(req, res){
             return res.status(401).json({
                 success: false,
                 message: "Incorrect password"
+            });
+        }
+
+        if (!process.env.SECRET_KEY) {
+            console.error("CRITICAL: SECRET_KEY is missing from environment variables!");
+            return res.status(500).json({
+                success: false,
+                message: "Server configuration error (missing secret key)"
             });
         }
 
