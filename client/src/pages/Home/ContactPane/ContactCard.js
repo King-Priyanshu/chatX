@@ -1,6 +1,6 @@
 import ProfilePicture from "../components/common/ProfilePicture";
 import ContactName from "../components/common/ContactName";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import { getDatetimeWordWithDay } from "../../../utils/helpers";
 import SentIcon from "../components/common/SentIcon";
@@ -68,7 +68,14 @@ function ContactCard({ hasNewMessages, name, username, pfp, lastMsg, unreadMsgCo
                                     : ''
                             }
                         </div>
-                        <p className="opacity-80 w-full truncate whitespace-nowrap whitespace-pre">{(lastMsg) ? (lastMsg.message).split('\n').join(' ') : ("Loading...")}</p>
+                        <p className="opacity-80 w-full truncate whitespace-nowrap whitespace-pre">
+                            {lastMsg
+                                ? lastMsg.mediaType === 'image' ? '📷 Photo'
+                                    : lastMsg.mediaType === 'video' ? '🎥 Video'
+                                    : lastMsg.mediaType === 'document' ? '📄 Document'
+                                    : (lastMsg.message).split('\n').join(' ')
+                                : 'Loading...'}
+                        </p>
 
                     </div>
                 </div>
