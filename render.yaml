@@ -2,8 +2,8 @@ services:
   - type: web
     name: chatx
     env: node
-    buildCommand: npm install --prefix server && npm install --prefix client && npm run build --prefix client
-    startCommand: npm start --prefix server
+    buildCommand: npm run install-all && npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
